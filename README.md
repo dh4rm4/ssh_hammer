@@ -1,13 +1,10 @@
 # SSH_HAMMER
 
-SSH_Hammer is a script how will bruteforce an ssh gate via a password dictionnary file and execute few commands if needed
+SSH_Hammer is a script that will bruteforce an ssh gate via a password dictionnary file and execute few commands if needed.
 
 
 ### Prerequisites
-You only need a version >= 3 for python.
-
-
-If you still live in the past, you can delete all the output function to make it work
+python >= 3.
 
 
 ## Usage
@@ -18,16 +15,16 @@ python3 ssh_hammer --host <HOST> --user <USERNAME> -f <passwdDictionnary> --cmds
 
 Practical exemple on a raspberry pi:
 ```
-python3 ssh_hammer --host 192.168.1.XXX --user pi -f passwdDictionnary --cmds fileWithCmds
+python3 ssh_hammer --host 192.168.XXX.XXX --user pi -f passwdDictionnary --cmds fileWithCmds
 ```
 
 
-#### Before you run it, be sure you don't have the ssh-askpass-gnome package install. In this case, it will open a authentification pop-up for each try of connection
+#### IF you use a desktop environment, be sure you don't have the ssh-askpass-gnome package install or any equivalent. Keeping it will open an authentification pop-up for each auth session.
 
 
 
-### Dictionniary source
-You can find on [cracking-station](https://crackstation.net/buy-crackstation-wordlist-password-cracking-dictionary.htm) one of the biggest password dictionnary.
+### Dictionary source
+You can find on [cracking-station](https://crackstation.net/buy-crackstation-wordlist-password-cracking-dictionary.htm) one of the largest password dictionary.
 
 
 
