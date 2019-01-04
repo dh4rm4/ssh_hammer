@@ -9,13 +9,13 @@ python >= 3.
 
 ## Usage
 ```
-python3 ssh_hammer --host <HOST> --user <USERNAME> -f <passwdDictionnary> --cmds <fileWithCmds>
+python3 main.py --host <HOST> --user <USERNAME> -f <passwdDictionnary> --cmds <fileWithCmds>
 * the file with cmd is optionnal, still, a default command will be execute
 ```
 
 Practical exemple on a raspberry pi:
 ```
-python3 ssh_hammer --host 192.168.XXX.XXX --user pi -f passwdDictionnary --cmds fileWithCmds
+python3 main.py --host 192.168.XXX.XXX --user pi -f passwdDictionnary --cmds fileWithCmds
 ```
 
 
