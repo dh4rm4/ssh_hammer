@@ -10,20 +10,20 @@ class user_options():
     Manage user options given at script launch
     """
     def __init__(self, printer):
+        self.printer = printer
         self.parser = self.create_parser()
         (options, arg) = self.parser.parse_args()
         self.host = options.host
         self.user = options.user
         self.passwd_file = options.passwd_file
         self.cmd_file = options.cmd_file
-        self.printer = printer
 
     def create_parser(self):
-	"""
+        """
         Create options parser object with an help text
         """
-        parser = optparse.OptionParser(printer.BOLD + 'Usage: ' +
-                                       printer.ENDC +
+        parser = optparse.OptionParser(self.printer.BOLD + 'Usage: ' +
+                                       self.printer.ENDC +
                                        'py3 ssh_hammer --host <HOST>\n' +
                                        '\t\t\t--user <USERNAME>\n' +
                                        '\t\t\t-f <passwdDictionnary>\n' +
